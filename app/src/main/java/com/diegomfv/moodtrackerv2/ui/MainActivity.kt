@@ -1,7 +1,8 @@
-package com.diegomfv.moodtrackerv2
+package com.diegomfv.moodtrackerv2.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.diegomfv.moodtrackerv2.R
 
 class MainActivity : AppCompatActivity() {
 
