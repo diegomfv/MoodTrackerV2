@@ -42,11 +42,13 @@ allprojects {
         ]
 
         androidKaptLibs = [
+                roomCompiler : 'androidx.room:room-compiler:2.2.1',
                 glideCompiler: 'com.github.bumptech.glide:compiler:4.9.0'
         ]
 
         kotlinLibs = [
                 stdlib    : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
+                coroutines: 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.2.2'
         ]
 
         libs = [
