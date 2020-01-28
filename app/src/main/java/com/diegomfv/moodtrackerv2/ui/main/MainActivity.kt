@@ -1,4 +1,4 @@
-package com.diegomfv.moodtrackerv2.ui
+package com.diegomfv.moodtrackerv2.ui.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
