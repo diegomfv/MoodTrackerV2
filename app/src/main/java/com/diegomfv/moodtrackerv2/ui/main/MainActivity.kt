@@ -3,6 +3,9 @@ package com.diegomfv.moodtrackerv2.ui.main
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.diegomfv.moodtrackerv2.R
+import com.diegomfv.moodtrackerv2.ui.common.startActivity
+import com.diegomfv.moodtrackerv2.ui.history.HistoryActivity
+import com.diegomfv.moodtrackerv2.ui.history.HistoryActivityViewModel
 import org.koin.android.scope.currentScope
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -13,5 +16,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        startActivity<HistoryActivity> {  }
     }
 }
