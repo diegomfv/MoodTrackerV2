@@ -6,10 +6,17 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.diegomfv.moodtrackerv2.utils.ColourManager
+import com.diegomfv.moodtrackerv2.utils.ImageManager
+import com.jakewharton.rxbinding3.view.clicks
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 
 fun ViewGroup.inflate(@LayoutRes layoutRes: Int, attachToRoot: Boolean = true): View =
@@ -44,3 +51,17 @@ inline fun <VH : RecyclerView.ViewHolder, T> RecyclerView.Adapter<VH>.basicDiffU
             override fun getNewListSize(): Int = new.size
         }).dispatchUpdatesTo(this@basicDiffUtil)
     }
+
+fun ImageView.setImageResource (imageManager: ImageManager) {
+    this.setImageResource(imageManager.getFaceImage())
+}
+
+fun View.setBackgroundColor (colourManager: ColourManager) {
+    this.setBackgroundColor(colourManager.getFaceColour())
+}
+
+fun View.debouncedClicks (debounceTimeMillis: Long = 500, actionOnClick: () -> Unit) =
+    this.clicks()
+        .debounce (debounceTimeMillis, TimeUnit.MILLISECONDS)
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe { actionOnClick.invoke() }
