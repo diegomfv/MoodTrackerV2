@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">MoodTrackerV2</string>
+    <string name="alertDialogTitle">Add a comment</string>
+    <string name="comment_hint">Add it here…</string>
+    <string name="alert_dialog_box_ok">Ok</string>
+    <string name="alert_dialog_box_cancel">Cancel</string>
 </resources>

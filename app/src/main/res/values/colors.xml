@@ -3,4 +3,12 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+
+    <!-- Background colors for the different moods -->
+    <color name="sad_red">#ffde3c50</color>
+    <color name="disappointed_grey">#ff9b9b9b</color>
+    <color name="normal_blue">#a5468ad9</color>
+    <color name="happy_green">#ffb8e986</color>
+    <color name="very_happy_yellow">#fff9ec4f</color>
+
 </resources>
