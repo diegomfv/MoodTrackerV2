@@ -7,77 +7,55 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.diegomfv.moodtrackerv2.R
-import com.diegomfv.moodtrackerv2.ui.common.startActivity
+import com.diegomfv.moodtrackerv2.ui.common.*
 import com.diegomfv.moodtrackerv2.ui.history.HistoryActivity
+import com.diegomfv.moodtrackerv2.utils.BasicColourManager
+import com.diegomfv.moodtrackerv2.utils.BasicImageManager
+import com.diegomfv.moodtrackerv2.utils.argument
 import com.jakewharton.rxbinding3.view.clicks
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_mood.*
-import org.koin.android.scope.currentScope
-import org.koin.android.viewmodel.ext.android.viewModel
-import org.koin.core.qualifier.named
 import java.util.concurrent.TimeUnit
-import kotlin.properties.Delegates
-import kotlin.reflect.KProperty
 
 class MoodStateFragment : Fragment() {
 
     companion object {
-        const val KEY = "key"
         fun newInstance(moodState: Int): MoodStateFragment {
-            val bundle = Bundle()
-            bundle.putInt(KEY, moodState)
-            val fragment = MoodStateFragment()
-            fragment.arguments = bundle
-            return fragment
+            return MoodStateFragment().apply {
+                this.moodState = moodState
+            }
         }
     }
 
-    private val qualifier by Delegates.argExtra(KEY)
-    private val moodStateFragmentViewModel: MoodStateFragmentViewModel by currentScope.viewModel(
-        this,
-        qualifier = named(qualifier)
-    )
+    private var moodState: Int by argument()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_mood, container, false)
     }
 
     @SuppressLint("CheckResult")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        
-        iv_go_to_history.clicks()
-            .debounce(500, TimeUnit.MILLISECONDS)
-            .subscribe {
-                activity?.startActivity<HistoryActivity> { }
-            }
+        iv_mood_state.setImageResource(BasicImageManager(moodState))
+        activity?.let { main_container.setBackgroundColor(BasicColourManager(it, moodState)) }
 
-        iv_add_comment.clicks()
-            .debounce(500, TimeUnit.MILLISECONDS)
-            .subscribe {
-                //TODO Build alert dialog
-            }
-    }
-}
+        iv_mood_state.debouncedClicks {
+            activity?.shortToast("State set")
+        }
 
+        iv_go_to_history.debouncedClicks {
+            activity?.startActivity<HistoryActivity> { }
+        }
 
-
-
-fun <T> Delegates.argExtra(value: T) = ArgExtra(value)
-
-class ArgExtra<T>(var value: T) {
-
-    operator fun getValue(
-        thisRef: Any?,
-        prop: KProperty<*>
-    ): T {
-        return value
-    }
-
-    operator fun setValue(
-        thisRef: Any?,
-        prop: KProperty<*>,
-        newValue: T
-    ) {
-        value = newValue
+        iv_add_comment.debouncedClicks {
+            activity?.shortToast("Showing dialog")
+            //TODO Check if this leaks
+            //TODO Build alert dialog
+        }
     }
 }
