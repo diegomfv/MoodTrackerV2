@@ -3,6 +3,7 @@ package com.diegomfv.moodtrackerv2.ui.main
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import com.diegomfv.moodtrackerv2.R
 import com.diegomfv.moodtrackerv2.ui.common.shortToast
 import com.diegomfv.moodtrackerv2.ui.common.startActivity
@@ -22,6 +23,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        mainActivityViewModel.event.observe(this, Observer { it.getContentIfNotHandled()?.let { triggerEvent(it) } })
+
         val listOfChildFragments = arrayListOf<Fragment>(
             MoodStateFragment.newInstance(0),
             MoodStateFragment.newInstance(1),
@@ -35,7 +38,22 @@ class MainActivity : AppCompatActivity() {
             listOfFragments = listOfChildFragments
         )
 
+        view_pager.offscreenPageLimit = 4 //TODO Find a proper solution
         view_pager.adapter = adapter
 
+    }
+
+    private fun triggerEvent (event: MainActivityViewModel.EventModel) {
+        when (event) {
+            is MainActivityViewModel.EventModel.UpdateState -> {
+
+            }
+            is MainActivityViewModel.EventModel.SaveNote -> {
+
+            }
+            is MainActivityViewModel.EventModel.ToastMessage -> {
+                shortToast(event.string ?: "Toast is null")
+            }
+        }
     }
 }

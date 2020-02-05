@@ -1,6 +1,7 @@
 package com.diegomfv.moodtrackerv2.ui.main
 
-import com.diegomfv.moodtrackerv2.data.MoodStateModel
+import androidx.lifecycle.MutableLiveData
+import com.diegomfv.moodtrackerv2.ui.common.Event
 import com.diegomfv.moodtrackerv2.usecase.SaveNoteUsecase
 import com.diegomfv.moodtrackerv2.usecase.UpdateStateUsecase
 import com.diegomfv.splendidrecipesmvvm.ui.common.ScopedViewModel
@@ -8,23 +9,16 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class MainActivityViewModel (
-    private val updateStateUsecase: UpdateStateUsecase,
-    private val saveNoteUsecase: SaveNoteUsecase,
+class MainActivityViewModel(
     uiDispatcher: CoroutineDispatcher
 ) : ScopedViewModel(uiDispatcher) {
 
+    val event = MutableLiveData<Event<EventModel>>()
 
-    //TODO Dummy for the moment
-    fun updateState(moodStateModel: MoodStateModel) {
-        GlobalScope.launch {
-            updateStateUsecase.invoke(moodStateModel)
-        }
+    sealed class EventModel {
+        data class UpdateState(val updateState: Int) : EventModel()
+        data class SaveNote(val note: String) : EventModel()
+        data class ToastMessage(val string: String?) : EventModel()
     }
 
-    fun saveNote (note: String) {
-        GlobalScope.launch {
-            saveNoteUsecase.invoke(note)
-        }
-    }
 }

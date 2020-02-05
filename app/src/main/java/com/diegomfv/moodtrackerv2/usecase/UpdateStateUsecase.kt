@@ -4,7 +4,7 @@ import com.diegomfv.moodtrackerv2.data.MoodStateModel
 
 class UpdateStateUsecase () {
 
-    fun invoke (moodStateModel: MoodStateModel) {
+    fun invoke (moodState: Int) {
         TODO()
     }
 

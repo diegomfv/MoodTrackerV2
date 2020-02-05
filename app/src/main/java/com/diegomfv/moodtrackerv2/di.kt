@@ -6,7 +6,10 @@ import com.diegomfv.moodtrackerv2.ui.history.HistoryActivityViewModel
 import com.diegomfv.moodtrackerv2.ui.main.MainActivity
 import com.diegomfv.moodtrackerv2.ui.main.MainActivityViewModel
 import com.diegomfv.moodtrackerv2.ui.main.moodstatefragment.MoodStateFragment
+import com.diegomfv.moodtrackerv2.ui.main.moodstatefragment.MoodStateFragmentViewModel
 import com.diegomfv.moodtrackerv2.usecase.GetDaysUsecase
+import com.diegomfv.moodtrackerv2.usecase.SaveNoteUsecase
+import com.diegomfv.moodtrackerv2.usecase.UpdateStateUsecase
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import org.koin.android.ext.koin.androidContext
@@ -20,7 +23,7 @@ fun Application.initDI() {
     startKoin {
         androidLogger()
         androidContext(this@initDI)
-        modules(listOf(appModule, usecaseModule, scopesModule))
+        modules(listOf(appModule, scopesModule))
     }
 }
 
@@ -28,17 +31,22 @@ private val appModule = module {
     single<CoroutineDispatcher> { Dispatchers.Main }
 }
 
-private val usecaseModule =  module {
-    single { GetDaysUsecase() }
-}
 
 private val scopesModule = module {
 
     scope(named<MainActivity>()) {
-        viewModel { MainActivityViewModel(get(), get(), get()) }
+        viewModel { MainActivityViewModel(get()) }
+        scoped { UpdateStateUsecase() }
+        scoped { SaveNoteUsecase() }
+    }
+
+    scope(named<MoodStateFragment>()) {
+        viewModel { (moodState: Int) -> MoodStateFragmentViewModel(moodState, get(), get(), get()) }
     }
 
     scope(named<HistoryActivity>()) {
         viewModel { HistoryActivityViewModel(get(), get()) }
+        scoped { GetDaysUsecase() }
     }
+
 }
