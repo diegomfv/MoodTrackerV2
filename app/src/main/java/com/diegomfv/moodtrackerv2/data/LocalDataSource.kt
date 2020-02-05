@@ -9,4 +9,5 @@ interface LocalDataSource {
     suspend fun getAllDayModels(): List<DayModel>
     suspend fun updateDayComment(dayModel: DayModel)
     suspend fun updateDayState(dayModel: DayModel)
+    suspend fun printAllDays()
 }

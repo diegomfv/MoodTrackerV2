@@ -10,20 +10,23 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class SharedPrefDataSource(
-    private val app: Application,
     private val sharedPreferences: SharedPreferences,
     private val sharedPreferencesEditor: SharedPreferences.Editor,
     private val gson: Gson
 ) : LocalDataSource {
 
     val DEFAULT_VALUE = Int.MIN_VALUE
+    val DEFAULT_VALUE_STRING = ""
 
     override suspend fun createAllDays() {
         return withContext(Dispatchers.IO) {
-            val dbIsAlreadyFilled = sharedPreferences.getInt(1.toString(), DEFAULT_VALUE) != DEFAULT_VALUE
-            if (!dbIsAlreadyFilled) {
-                (0..14).forEach {
-                    sharedPreferencesEditor.putString(it.toString(), gson.toJson(DayModel(it, listOfDaysAsString[it], MOOD_NORMAL, "")))
+            val dbIsEmpty = sharedPreferences.getString(0.toString(), DEFAULT_VALUE_STRING).isNullOrBlank()
+            if (dbIsEmpty) {
+                listOfDaysAsString.indices.forEach {
+                    sharedPreferencesEditor.putString(
+                        it.toString(),
+                        gson.toJson(DayModel(it, listOfDaysAsString[it], MOOD_NORMAL, ""))
+                    )
                 }
                 sharedPreferencesEditor.apply()
             }
@@ -50,5 +53,13 @@ class SharedPrefDataSource(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
+    override suspend fun printAllDays() {
+        return withContext(Dispatchers.IO) {
+            listOfDaysAsString.indices.forEach {
+                val day = sharedPreferences.getString(it.toString(), DEFAULT_VALUE_STRING)
+                println(day)
+            }
+        }
+    }
 
 }
