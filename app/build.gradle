@@ -31,7 +31,6 @@ dependencies {
     implementation androidLibs.values()
     implementation kotlinLibs.values()
     implementation libs.values()
-    kapt androidKaptLibs.values()
     implementation testLibs.values()
     implementation androidxTestLibs.values()
     implementation androidTestLibs.values()
