@@ -7,20 +7,21 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import com.diegomfv.moodtrackerv2.QUALIFIER_COLOUR_MANAGER
+import com.diegomfv.moodtrackerv2.QUALIFIER_IMAGE_MANAGER
 import com.diegomfv.moodtrackerv2.R
 import com.diegomfv.moodtrackerv2.ui.common.debouncedClicks
-import com.diegomfv.moodtrackerv2.ui.common.setBackgroundColor
-import com.diegomfv.moodtrackerv2.ui.common.setImageResource
 import com.diegomfv.moodtrackerv2.ui.common.startActivity
 import com.diegomfv.moodtrackerv2.ui.history.HistoryActivity
 import com.diegomfv.moodtrackerv2.ui.main.MainActivityViewModel
-import com.diegomfv.moodtrackerv2.utils.BasicColourManager
-import com.diegomfv.moodtrackerv2.utils.BasicImageManager
+import com.diegomfv.moodtrackerv2.utils.ColourManager
+import com.diegomfv.moodtrackerv2.utils.ImageManager
 import kotlinx.android.synthetic.main.fragment_mood.*
 import org.koin.android.scope.currentScope
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
+import org.koin.core.qualifier.named
 
 class MoodStateFragment : Fragment() {
 
@@ -34,10 +35,13 @@ class MoodStateFragment : Fragment() {
     }
 
     private val mainActivityViewModel: MainActivityViewModel by sharedViewModel() //left as example, do not delete
+    private val moodStateFragmentViewModel: MoodStateFragmentViewModel by currentScope.viewModel(this) { parametersOf(arguments?.getInt(KEY, 2)) }
 
-    private val moodStateFragmentViewModel: MoodStateFragmentViewModel by currentScope.viewModel(this) {
-        parametersOf(arguments?.getInt(KEY, 2))
-    }
+    private val colourManager: ColourManager by currentScope.inject(
+        named(QUALIFIER_COLOUR_MANAGER))
+
+    private val imageManager: ImageManager by currentScope.inject(
+        named(QUALIFIER_IMAGE_MANAGER))
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -69,8 +73,14 @@ class MoodStateFragment : Fragment() {
     private fun updateUi(uiModel: MoodStateFragmentViewModel.UiModel) {
         when (uiModel) {
             is MoodStateFragmentViewModel.UiModel.Content -> {
-                iv_mood_state.setImageResource(BasicImageManager(uiModel.moodState))
-                activity?.let { main_container.setBackgroundColor(BasicColourManager(it, uiModel.moodState)) }
+                iv_mood_state.setImageResource(imageManager.getFaceImage(uiModel.moodState))
+                activity?.let {
+                    main_container.setBackgroundColor(
+                        colourManager.getMoodColour(
+                            uiModel.moodState
+                        )
+                    )
+                }
             }
         }
     }

@@ -2,7 +2,6 @@ package com.diegomfv.moodtrackerv2.ui.history
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.diegomfv.moodtrackerv2.data.Response
 import com.diegomfv.moodtrackerv2.domain.DayModel
 import com.diegomfv.moodtrackerv2.ui.common.Event
 import com.diegomfv.moodtrackerv2.usecase.GetDaysUsecase
@@ -11,7 +10,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class HistoryActivityViewModel (
+class HistoryActivityViewModel(
     val getDaysUsecase: GetDaysUsecase,
     uiDispatcher: CoroutineDispatcher
 ) : ScopedViewModel(uiDispatcher) {
@@ -30,15 +29,14 @@ class HistoryActivityViewModel (
     fun refreshAdapter() {
         GlobalScope.launch {
             _model.postValue(UiModel.Loading)
-            val response = getDaysUsecase.invoke()
-            when (response) {
-                is Response.Success -> _model.postValue(UiModel.Content(response.result))
-                is Response.Failure -> _model.postValue(UiModel.Error(response.throwable))
-            }
+
+            val dayModels = getDaysUsecase.invoke().filterNotNull() //TODO Necessary, see issue
+            _model.postValue(UiModel.Content(dayModels))
         }
     }
 
-    fun onDayClicked (dayModel: DayModel) {
+
+    fun onDayClicked(dayModel: DayModel) {
         GlobalScope.launch {
             event.postValue(Event(EventModel.ToastMessage(dayModel.comment)))
         }
@@ -47,7 +45,7 @@ class HistoryActivityViewModel (
     sealed class UiModel {
         object Loading : UiModel()
         data class Content(val dayModelList: List<DayModel>) : UiModel()
-        data class Error(val throwable : Throwable) : UiModel()
+        data class Error(val throwable: Throwable) : UiModel()
     }
 
     sealed class EventModel {

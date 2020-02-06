@@ -20,7 +20,7 @@ class MoodTrackerApp : Application() {
         if (BuildConfig.DEBUG) { Timber.plant(Timber.DebugTree()) }
         GlobalScope.launch {
             sharedPrefDataSource.createAllDays()
-            sharedPrefDataSource.printAllDays()
+            if (BuildConfig.DEBUG) { sharedPrefDataSource.printAllDays() }
         }
     }
 }

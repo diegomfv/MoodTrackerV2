@@ -1,5 +1,6 @@
 package com.diegomfv.moodtrackerv2.ui.history
 
+import android.content.res.ColorStateList
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -7,9 +8,13 @@ import com.diegomfv.moodtrackerv2.R
 import com.diegomfv.moodtrackerv2.domain.DayModel
 import com.diegomfv.moodtrackerv2.ui.common.basicDiffUtil
 import com.diegomfv.moodtrackerv2.ui.common.inflate
+import com.diegomfv.moodtrackerv2.utils.ColourManager
 import kotlinx.android.synthetic.main.item_day.view.*
 
-class HistoryAdapter (private val listener: (DayModel) -> Unit) :
+class HistoryAdapter (
+    private val listener: (DayModel) -> Unit,
+    private val colourManager: ColourManager
+) :
     RecyclerView.Adapter<HistoryAdapter.ViewHolder>() {
 
     var dayModelList: List<DayModel> by basicDiffUtil(
@@ -30,9 +35,10 @@ class HistoryAdapter (private val listener: (DayModel) -> Unit) :
         holder.itemView.setOnClickListener { listener(dayModel) }
     }
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         fun bind(dayModel: DayModel) {
             itemView.text_day.text = "${dayModel.dayAsString}"
+            itemView.mood_bar.backgroundTintList = ColorStateList.valueOf(colourManager.getMoodColour(dayModel.mood))
         }
     }
 }

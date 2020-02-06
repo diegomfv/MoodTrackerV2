@@ -10,28 +10,8 @@ class GetDaysUsecase (
     private val sharedPrefDataSource: LocalDataSource
 ) {
 
-    //TODO
-    fun invoke () : Response<List<DayModel>> {
-        return Response.Success(dummyData())
+    suspend fun invoke () : List<DayModel> {
+        return sharedPrefDataSource.getAllDayModels()
     }
 
-    //TODO Remove
-    fun dummyData () : List<DayModel> {
-        var counter = 0
-
-        fun addNewDay (dayAsString: String, comment: String? = null) : DayModel {
-            return DayModel(counter++, dayAsString, Random.nextInt(0, 4), comment)
-        }
-
-        return listOf(
-            addNewDay("Today"),
-            addNewDay("Yesterday"),
-            addNewDay("2 days ago", "Comment"),
-            addNewDay("3 days ago"),
-            addNewDay("4 days ago"),
-            addNewDay("5 days ago", "Another comment"),
-            addNewDay("6 days ago"),
-            addNewDay("7 days ago")
-        )
-    }
 }

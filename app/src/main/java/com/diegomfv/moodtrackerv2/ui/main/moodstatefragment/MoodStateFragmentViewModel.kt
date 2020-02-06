@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import com.diegomfv.moodtrackerv2.ui.common.Event
 import com.diegomfv.moodtrackerv2.usecase.SaveNoteUsecase
 import com.diegomfv.moodtrackerv2.usecase.UpdateStateUsecase
+import com.diegomfv.moodtrackerv2.utils.ColourManager
+import com.diegomfv.moodtrackerv2.utils.ImageManager
 import com.diegomfv.splendidrecipesmvvm.ui.common.ScopedViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.GlobalScope
@@ -37,7 +39,7 @@ class MoodStateFragmentViewModel(
     fun updateState() {
         GlobalScope.launch {
             updateStateUsecase.invoke(moodState)
-            event.value = Event(EventModel.ToastMessage("State saved"))
+            event.postValue(Event(EventModel.ToastMessage("State saved")))
         }
     }
 

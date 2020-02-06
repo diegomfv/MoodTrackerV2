@@ -15,7 +15,6 @@ import com.diegomfv.moodtrackerv2.utils.ColourManager
 import com.diegomfv.moodtrackerv2.utils.ImageManager
 import com.jakewharton.rxbinding3.view.clicks
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 
@@ -52,13 +51,13 @@ inline fun <VH : RecyclerView.ViewHolder, T> RecyclerView.Adapter<VH>.basicDiffU
         }).dispatchUpdatesTo(this@basicDiffUtil)
     }
 
-fun ImageView.setImageResource (imageManager: ImageManager) {
-    this.setImageResource(imageManager.getFaceImage())
-}
-
-fun View.setBackgroundColor (colourManager: ColourManager) {
-    this.setBackgroundColor(colourManager.getFaceColour())
-}
+//fun ImageView.setImageResource (imageManager: ImageManager) {
+//    this.setImageResource(imageManager.getFaceImage())
+//}
+//
+//fun View.setBackgroundColor (colourManager: ColourManager) {
+//    this.setBackgroundColor(colourManager.getMoodColour())
+//}
 
 fun View.debouncedClicks (debounceTimeMillis: Long = 500, actionOnClick: () -> Unit) =
     this.clicks()

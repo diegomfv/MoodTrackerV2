@@ -4,10 +4,10 @@ import com.diegomfv.moodtrackerv2.domain.DayModel
 
 interface LocalDataSource {
     suspend fun createAllDays()
-    suspend fun getDay(day: Int): Boolean
-    suspend fun clearDay(dayModel: DayModel)
+    suspend fun getDay(day: Int): DayModel
+    suspend fun clearLastDay()
     suspend fun getAllDayModels(): List<DayModel>
-    suspend fun updateDayComment(dayModel: DayModel)
-    suspend fun updateDayState(dayModel: DayModel)
+    suspend fun updateDayComment(newComment: String)
+    suspend fun updateDayState(newMoodState: Int)
     suspend fun printAllDays()
 }

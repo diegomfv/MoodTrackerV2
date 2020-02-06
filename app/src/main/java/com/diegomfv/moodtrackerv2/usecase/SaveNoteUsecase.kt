@@ -6,7 +6,7 @@ class SaveNoteUsecase (
     private val sharedPrefDataSource: LocalDataSource
 ){
 
-    fun invoke (note: String) {
-        TODO()
+    suspend fun invoke (newComment: String) {
+        sharedPrefDataSource.updateDayComment(newComment)
     }
 }

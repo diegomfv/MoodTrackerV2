@@ -16,6 +16,10 @@ import com.diegomfv.moodtrackerv2.ui.main.moodstatefragment.MoodStateFragmentVie
 import com.diegomfv.moodtrackerv2.usecase.GetDaysUsecase
 import com.diegomfv.moodtrackerv2.usecase.SaveNoteUsecase
 import com.diegomfv.moodtrackerv2.usecase.UpdateStateUsecase
+import com.diegomfv.moodtrackerv2.utils.BasicColourManager
+import com.diegomfv.moodtrackerv2.utils.BasicImageManager
+import com.diegomfv.moodtrackerv2.utils.ColourManager
+import com.diegomfv.moodtrackerv2.utils.ImageManager
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -37,10 +41,16 @@ fun Application.initDI() {
 
 private val appModule = module {
     single<CoroutineDispatcher> { Dispatchers.Main }
+
     single<SharedPreferences> { androidApplication().getSharedPreferences(CONFIGURATION_PREFERENCES, Context.MODE_PRIVATE) }
     single<SharedPreferences.Editor> { androidApplication().getSharedPreferences(CONFIGURATION_PREFERENCES, Context.MODE_PRIVATE).edit() }
-    single<LocalDataSource> { SharedPrefDataSource(get(),get(),get()) }
+
+    single<LocalDataSource> { SharedPrefDataSource(get(), get(), get()) }
+
     single { Gson() }
+
+    single<ColourManager>(named(QUALIFIER_COLOUR_MANAGER)) { BasicColourManager(androidContext()) }
+    single<ImageManager>(named(QUALIFIER_IMAGE_MANAGER)) { BasicImageManager() }
 }
 
 private val scopesModule = module {
@@ -61,3 +71,7 @@ private val scopesModule = module {
     }
 
 }
+
+//TODO Move from here
+const val QUALIFIER_COLOUR_MANAGER = "Q_CM_Basic"
+const val QUALIFIER_IMAGE_MANAGER = "Q_IM_Basic"
