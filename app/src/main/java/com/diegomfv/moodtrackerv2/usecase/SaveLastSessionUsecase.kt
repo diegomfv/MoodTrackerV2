@@ -2,12 +2,12 @@ package com.diegomfv.moodtrackerv2.usecase
 
 import com.diegomfv.moodtrackerv2.data.LocalDataSource
 
-class UpdateStateUsecase(
+class SaveLastSessionUsecase (
     private val localDataSource: LocalDataSource
 ) {
 
-    suspend fun invoke(newMoodState: Int) {
-        localDataSource.updateDayState(newMoodState)
+    suspend fun invoke () {
+        localDataSource.saveLastSessionLocalDateTime()
     }
 
 }

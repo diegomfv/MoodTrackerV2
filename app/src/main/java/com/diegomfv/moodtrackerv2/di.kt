@@ -13,13 +13,8 @@ import com.diegomfv.moodtrackerv2.ui.main.MainActivity
 import com.diegomfv.moodtrackerv2.ui.main.MainActivityViewModel
 import com.diegomfv.moodtrackerv2.ui.main.moodstatefragment.MoodStateFragment
 import com.diegomfv.moodtrackerv2.ui.main.moodstatefragment.MoodStateFragmentViewModel
-import com.diegomfv.moodtrackerv2.usecase.GetDaysUsecase
-import com.diegomfv.moodtrackerv2.usecase.SaveNoteUsecase
-import com.diegomfv.moodtrackerv2.usecase.UpdateStateUsecase
-import com.diegomfv.moodtrackerv2.utils.BasicColourManager
-import com.diegomfv.moodtrackerv2.utils.BasicImageManager
-import com.diegomfv.moodtrackerv2.utils.ColourManager
-import com.diegomfv.moodtrackerv2.utils.ImageManager
+import com.diegomfv.moodtrackerv2.usecase.*
+import com.diegomfv.moodtrackerv2.utils.*
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -47,6 +42,11 @@ private val appModule = module {
 
     single<LocalDataSource> { SharedPrefDataSource(get(), get(), get()) }
 
+    single { CreateAllDaysUsecase(get()) }
+    single { PushForwardDaysInfoUsecase(get()) }
+    single { SaveLastSessionUsecase(get()) }
+
+    single { DaysAheadDetector(get()) }
     single { Gson() }
 
     single<ColourManager>(named(QUALIFIER_COLOUR_MANAGER)) { BasicColourManager(androidContext()) }

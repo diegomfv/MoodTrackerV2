@@ -3,6 +3,7 @@ package com.diegomfv.moodtrackerv2.constants
 /** Shared Preferences
  * */
 const val CONFIGURATION_PREFERENCES = "config_pref"
+const val LAST_SESSION_TIME_MILLIS = "last_session_time_millis"
 
 //TODO Move to Resources
 val listOfDaysAsString = listOf(
