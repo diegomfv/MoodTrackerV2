@@ -1,6 +1,6 @@
 # MoodTrackerV2
 
-Updated version of MoodTracker (see the old project here 'https://github.com/diegomfv/MoodTracker').
+Updated version of MoodTracker App (see the old project here 'https://github.com/diegomfv/MoodTracker').
 MoodTrackerV2 is fully develop following SOLID principles and "Clean Architecture". It uses kotlin, koin, Android Jetpack Components and Kotlin Coroutines. It also uses RxBindings to handle
 UI user interaction.
 
