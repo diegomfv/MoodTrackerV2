@@ -1,7 +1,14 @@
 <resources>
     <string name="app_name">MoodTrackerV2</string>
-    <string name="alertDialogTitle">Add a comment</string>
+    <string name="alert_dialog_title">Add a comment</string>
     <string name="comment_hint">Add it here…</string>
-    <string name="alert_dialog_box_ok">Ok</string>
+    <string name="alert_dialog_box_ok">OK</string>
     <string name="alert_dialog_box_cancel">Cancel</string>
+    <string name="mood_saved">Mood saved</string>
+    <string name="comment_not_saved">Comment not saved</string>
+    <string name="comment_saved">Comment saved:&#160;</string>
+    <string name="loading">Loading…</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="add_a_comment_here">Add a comment here…</string>
 </resources>

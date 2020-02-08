@@ -2,7 +2,7 @@ package com.diegomfv.moodtrackerv2.usecase
 
 import com.diegomfv.moodtrackerv2.data.LocalDataSource
 
-class SaveNoteUsecase (
+class SaveCommentUsecase (
     private val sharedPrefDataSource: LocalDataSource
 ){
 

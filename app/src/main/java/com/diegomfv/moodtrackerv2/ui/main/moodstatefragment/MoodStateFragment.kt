@@ -11,9 +11,12 @@ import com.diegomfv.moodtrackerv2.QUALIFIER_COLOUR_MANAGER
 import com.diegomfv.moodtrackerv2.QUALIFIER_IMAGE_MANAGER
 import com.diegomfv.moodtrackerv2.R
 import com.diegomfv.moodtrackerv2.ui.common.debouncedClicks
+import com.diegomfv.moodtrackerv2.ui.common.shortToast
 import com.diegomfv.moodtrackerv2.ui.common.startActivity
 import com.diegomfv.moodtrackerv2.ui.history.HistoryActivity
 import com.diegomfv.moodtrackerv2.ui.main.MainActivityViewModel
+import com.diegomfv.moodtrackerv2.ui.main.comment.CommentDialogFragment
+import com.diegomfv.moodtrackerv2.ui.main.comment.CommentDialogFragmentViewModel
 import com.diegomfv.moodtrackerv2.utils.ColourManager
 import com.diegomfv.moodtrackerv2.utils.ImageManager
 import kotlinx.android.synthetic.main.fragment_mood.*
@@ -26,7 +29,9 @@ import org.koin.core.qualifier.named
 class MoodStateFragment : Fragment() {
 
     companion object {
+
         const val KEY = "KEY"
+
         fun newInstance(moodState: Int): MoodStateFragment {
             return MoodStateFragment().apply {
                 arguments = Bundle().apply { putInt(KEY, moodState) }
@@ -56,6 +61,7 @@ class MoodStateFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         moodStateFragmentViewModel.model.observe(this, Observer(::updateUi))
+        moodStateFragmentViewModel.event.observe(this, Observer { it.getContentIfNotHandled()?.let { triggerEvent(it) } })
 
         iv_mood_state.debouncedClicks {
             moodStateFragmentViewModel.updateState()
@@ -66,7 +72,7 @@ class MoodStateFragment : Fragment() {
         }
 
         iv_add_comment.debouncedClicks {
-            moodStateFragmentViewModel.saveNote("Note to save") //TODO
+            activity?.let { CommentDialogFragment.newInstance().show(it.supportFragmentManager, "CommentDialogFragment") }
         }
     }
 
@@ -80,6 +86,16 @@ class MoodStateFragment : Fragment() {
                             uiModel.moodState
                         )
                     )
+                }
+            }
+        }
+    }
+
+    private fun triggerEvent (event: MoodStateFragmentViewModel.EventModel) {
+        when (event) {
+            is MoodStateFragmentViewModel.EventModel.ToastMessage -> {
+                event.string?.let {
+                    activity?.shortToast(event.string) //TODO
                 }
             }
         }

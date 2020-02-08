@@ -3,7 +3,6 @@ package com.diegomfv.moodtrackerv2
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
-import com.diegomfv.moodtrackerv2.AppProvider.app
 import com.diegomfv.moodtrackerv2.constants.CONFIGURATION_PREFERENCES
 import com.diegomfv.moodtrackerv2.data.LocalDataSource
 import com.diegomfv.moodtrackerv2.data.SharedPrefDataSource
@@ -11,6 +10,8 @@ import com.diegomfv.moodtrackerv2.ui.history.HistoryActivity
 import com.diegomfv.moodtrackerv2.ui.history.HistoryActivityViewModel
 import com.diegomfv.moodtrackerv2.ui.main.MainActivity
 import com.diegomfv.moodtrackerv2.ui.main.MainActivityViewModel
+import com.diegomfv.moodtrackerv2.ui.main.comment.CommentDialogFragment
+import com.diegomfv.moodtrackerv2.ui.main.comment.CommentDialogFragmentViewModel
 import com.diegomfv.moodtrackerv2.ui.main.moodstatefragment.MoodStateFragment
 import com.diegomfv.moodtrackerv2.ui.main.moodstatefragment.MoodStateFragmentViewModel
 import com.diegomfv.moodtrackerv2.usecase.*
@@ -37,8 +38,18 @@ fun Application.initDI() {
 private val appModule = module {
     single<CoroutineDispatcher> { Dispatchers.Main }
 
-    single<SharedPreferences> { androidApplication().getSharedPreferences(CONFIGURATION_PREFERENCES, Context.MODE_PRIVATE) }
-    single<SharedPreferences.Editor> { androidApplication().getSharedPreferences(CONFIGURATION_PREFERENCES, Context.MODE_PRIVATE).edit() }
+    single<SharedPreferences> {
+        androidApplication().getSharedPreferences(
+            CONFIGURATION_PREFERENCES,
+            Context.MODE_PRIVATE
+        )
+    }
+    single<SharedPreferences.Editor> {
+        androidApplication().getSharedPreferences(
+            CONFIGURATION_PREFERENCES,
+            Context.MODE_PRIVATE
+        ).edit()
+    }
 
     single<LocalDataSource> { SharedPrefDataSource(get(), get(), get()) }
 
@@ -60,9 +71,14 @@ private val scopesModule = module {
     }
 
     scope(named<MoodStateFragment>()) {
-        viewModel { (moodState: Int) -> MoodStateFragmentViewModel(moodState, get(), get(), get()) }
+        viewModel { (moodState: Int) -> MoodStateFragmentViewModel(moodState, get(), get()) }
         scoped { UpdateStateUsecase(get()) }
-        scoped { SaveNoteUsecase(get()) }
+    }
+
+    scope(named<CommentDialogFragment>()) {
+        viewModel { CommentDialogFragmentViewModel(get(), get()) }
+        scoped { SaveCommentUsecase(get()) }
+
     }
 
     scope(named<HistoryActivity>()) {
