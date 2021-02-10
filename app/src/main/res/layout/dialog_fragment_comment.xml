@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
-            android:padding="8dp">
+            android:padding="20dp">
 
             <TextView
                 android:id="@+id/dialog_title"
@@ -23,19 +23,23 @@
                 android:layout_height="wrap_content"
 
                 android:layout_gravity="center"
-                android:gravity="center"
 
                 android:text="@string/alert_dialog_title"
                 android:textAllCaps="true"
+                android:textSize="18sp"
                 android:textColor="@android:color/white"
                 android:textStyle="bold" />
 
         </FrameLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+
+            android:textColorHint="@color/colorAccentDarker"
+            app:boxBackgroundColor="@color/colorPrimaryLighter"
+            app:endIconMode="clear_text"
+            app:endIconTint="@color/colorAccentDarker"
 
             android:layout_margin="8dp">
 
@@ -43,7 +47,9 @@
                 android:id="@+id/comment_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/add_a_comment_here" />
+                android:hint="@string/add_a_comment_here"
+                android:textColor="@color/colorAccentDarker"
+                />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -63,7 +69,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:background="@android:color/holo_red_dark"
-        android:padding="8dp"
+        android:padding="12dp"
 
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="@id/guideline"
@@ -91,7 +97,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:background="@color/colorPrimary"
-        android:padding="8dp"
+        android:padding="12dp"
 
         app:layout_constraintStart_toStartOf="@id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
