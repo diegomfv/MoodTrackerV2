@@ -4,9 +4,9 @@ import android.content.SharedPreferences
 import com.diegomfv.moodtrackerv2.constants.MOOD_NORMAL
 import com.diegomfv.moodtrackerv2.data.datamodel.DayDbModel
 import com.diegomfv.moodtrackerv2.data.datamodel.DbContainer
+import com.diegomfv.moodtrackerv2.utils.dispatchers.DispatchersPool
 import com.diegomfv.moodtrackerv2.utils.localdateprovider.LocalDateManager
 import com.google.gson.Gson
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.*
 
@@ -17,6 +17,7 @@ class SharedPrefDataSource(
     private val sharedPreferences: SharedPreferences,
     private val sharedPreferencesEditor: SharedPreferences.Editor,
     private val localDateManager: LocalDateManager,
+    private val dispatchersPool : DispatchersPool,
     private val gson: Gson
 ) : LocalDataSource {
 
@@ -24,7 +25,7 @@ class SharedPrefDataSource(
     private val DEFAULT_VALUE_STRING = ""
 
     override suspend fun buildContainerIfDoesNotExist() {
-        return withContext(Dispatchers.IO) {
+        return withContext(dispatchersPool.ioDipatcher) {
             val data = sharedPreferences.getString(KEY, DEFAULT_VALUE_STRING) ?: ""
             if (data.isEmpty()) {
                 /* Container does not exist, build */
@@ -35,7 +36,7 @@ class SharedPrefDataSource(
     }
 
     override suspend fun getAllDays(): List<DayDbModel> {
-        return withContext(Dispatchers.IO) {
+        return withContext(dispatchersPool.ioDipatcher) {
             val data = sharedPreferences.getString(KEY, DEFAULT_VALUE_STRING)
             val model = gson.fromJson(data, DbContainer::class.java)
             return@withContext model.list
@@ -43,7 +44,7 @@ class SharedPrefDataSource(
     }
 
     override suspend fun getDay(day: Int): DayDbModel? {
-        return withContext(Dispatchers.IO) {
+        return withContext(dispatchersPool.ioDipatcher) {
             val data = sharedPreferences.getString(KEY, DEFAULT_VALUE_STRING)
             val model = gson.fromJson(data, DbContainer::class.java)
             return@withContext model.list.firstOrNull()
@@ -51,7 +52,7 @@ class SharedPrefDataSource(
     }
 
     override suspend fun updateOrCreateDay(mood: Int?, comment: String?) {
-        return withContext(Dispatchers.IO) {
+        return withContext(dispatchersPool.ioDipatcher) {
             val data = sharedPreferences.getString(KEY, DEFAULT_VALUE_STRING)
             val preContainer = gson.fromJson(data, DbContainer::class.java)
             val today = localDateManager.getTodayAsString()
