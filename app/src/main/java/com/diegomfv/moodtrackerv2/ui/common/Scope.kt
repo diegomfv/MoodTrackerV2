@@ -1,4 +1,4 @@
-package com.diegomfv.splendidrecipesmvvm.ui.common
+package com.diegomfv.moodtrackerv2.ui.common
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope

@@ -6,7 +6,7 @@ import androidx.lifecycle.Observer
 import com.diegomfv.moodtrackerv2.AppProvider
 import com.diegomfv.moodtrackerv2.QUALIFIER_COLOUR_MANAGER
 import com.diegomfv.moodtrackerv2.R
-import com.diegomfv.moodtrackerv2.ui.common.shortToast
+import com.diegomfv.moodtrackerv2.extensions.shortToast
 import com.diegomfv.moodtrackerv2.utils.ColourManager
 import kotlinx.android.synthetic.main.activity_history.*
 import org.koin.android.scope.currentScope
@@ -35,7 +35,7 @@ class HistoryActivity : AppCompatActivity() {
 
     private fun updateUI (uiModel: HistoryActivityViewModel.UiModel) {
         when (uiModel) {
-            HistoryActivityViewModel.UiModel.Loading -> shortToast(AppProvider.app.getString(R.string.loading)) //TODO
+            HistoryActivityViewModel.UiModel.Loading -> shortToast(AppProvider.app.getString(R.string.loading)) //TODO Show a proper placeholder
             is HistoryActivityViewModel.UiModel.Content -> adapter.dayModelList = uiModel.dayModelList
             is HistoryActivityViewModel.UiModel.Error -> shortToast(uiModel.throwable.message ?: "Null Error") //TODO Add Error mapper
         }

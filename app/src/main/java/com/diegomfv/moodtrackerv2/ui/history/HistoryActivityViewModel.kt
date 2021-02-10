@@ -4,14 +4,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.diegomfv.moodtrackerv2.domain.DayModel
 import com.diegomfv.moodtrackerv2.ui.common.Event
-import com.diegomfv.moodtrackerv2.usecase.GetDaysUsecase
-import com.diegomfv.splendidrecipesmvvm.ui.common.ScopedViewModel
+import com.diegomfv.moodtrackerv2.ui.common.ScopedViewModel
+import com.diegomfv.moodtrackerv2.usecase.GetAllDaysUsecase
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class HistoryActivityViewModel(
-    val getDaysUsecase: GetDaysUsecase,
+    private val getAllDaysUsecase: GetAllDaysUsecase,
     uiDispatcher: CoroutineDispatcher
 ) : ScopedViewModel(uiDispatcher) {
 
@@ -26,15 +26,20 @@ class HistoryActivityViewModel(
 
     val event = MutableLiveData<Event<EventModel>>()
 
-    fun refreshAdapter() {
-        GlobalScope.launch {
+    private fun refreshAdapter() {
+        launch {
             _model.postValue(UiModel.Loading)
 
-            val dayModels = getDaysUsecase.invoke().filterNotNull() //TODO Necessary, see issue
-            _model.postValue(UiModel.Content(dayModels))
+            try {
+                val dayModels = getAllDaysUsecase.invoke()
+                _model.postValue(UiModel.Content(dayModels))
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+                _model.postValue(UiModel.Error(e))
+            }
         }
     }
-
 
     fun onDayClicked(dayModel: DayModel) {
         GlobalScope.launch {

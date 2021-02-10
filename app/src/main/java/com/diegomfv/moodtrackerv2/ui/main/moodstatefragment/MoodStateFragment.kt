@@ -10,13 +10,12 @@ import androidx.lifecycle.Observer
 import com.diegomfv.moodtrackerv2.QUALIFIER_COLOUR_MANAGER
 import com.diegomfv.moodtrackerv2.QUALIFIER_IMAGE_MANAGER
 import com.diegomfv.moodtrackerv2.R
-import com.diegomfv.moodtrackerv2.ui.common.debouncedClicks
-import com.diegomfv.moodtrackerv2.ui.common.shortToast
-import com.diegomfv.moodtrackerv2.ui.common.startActivity
+import com.diegomfv.moodtrackerv2.extensions.shortToast
+import com.diegomfv.moodtrackerv2.extensions.startActivity
+import com.diegomfv.moodtrackerv2.extensions.throttleFirst
 import com.diegomfv.moodtrackerv2.ui.history.HistoryActivity
 import com.diegomfv.moodtrackerv2.ui.main.MainActivityViewModel
 import com.diegomfv.moodtrackerv2.ui.main.comment.CommentDialogFragment
-import com.diegomfv.moodtrackerv2.ui.main.comment.CommentDialogFragmentViewModel
 import com.diegomfv.moodtrackerv2.utils.ColourManager
 import com.diegomfv.moodtrackerv2.utils.ImageManager
 import kotlinx.android.synthetic.main.fragment_mood.*
@@ -63,15 +62,15 @@ class MoodStateFragment : Fragment() {
         moodStateFragmentViewModel.model.observe(this, Observer(::updateUi))
         moodStateFragmentViewModel.event.observe(this, Observer { it.getContentIfNotHandled()?.let { triggerEvent(it) } })
 
-        iv_mood_state.debouncedClicks {
+        iv_mood_state?.throttleFirst {
             moodStateFragmentViewModel.updateState()
         }
 
-        iv_go_to_history.debouncedClicks {
+        iv_go_to_history?.throttleFirst {
             activity?.startActivity<HistoryActivity> { }
         }
 
-        iv_add_comment.debouncedClicks {
+        iv_add_comment?.throttleFirst {
             activity?.let { CommentDialogFragment.newInstance().show(it.supportFragmentManager, "CommentDialogFragment") }
         }
     }

@@ -5,15 +5,14 @@ import androidx.lifecycle.MutableLiveData
 import com.diegomfv.moodtrackerv2.AppProvider
 import com.diegomfv.moodtrackerv2.R
 import com.diegomfv.moodtrackerv2.ui.common.Event
-import com.diegomfv.moodtrackerv2.usecase.UpdateStateUsecase
-import com.diegomfv.splendidrecipesmvvm.ui.common.ScopedViewModel
+import com.diegomfv.moodtrackerv2.ui.common.ScopedViewModel
+import com.diegomfv.moodtrackerv2.usecase.UpdateMoodUsecase
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class MoodStateFragmentViewModel(
     private val moodState: Int,
-    private val updateStateUsecase: UpdateStateUsecase,
+    private val updateMoodUsecase: UpdateMoodUsecase,
     uiDispatcher: CoroutineDispatcher
 ) : ScopedViewModel(uiDispatcher) {
 
@@ -29,13 +28,13 @@ class MoodStateFragmentViewModel(
 
     val event = MutableLiveData<Event<EventModel>>()
 
-    fun refresh() {
+    private fun refresh() {
         _model.value = UiModel.Content(moodState)
     }
 
     fun updateState() {
-        GlobalScope.launch {
-            updateStateUsecase.invoke(moodState)
+        launch {
+            updateMoodUsecase.invoke(moodState)
             event.postValue(Event(EventModel.ToastMessage(AppProvider.app.getString(R.string.mood_saved))))
         }
     }

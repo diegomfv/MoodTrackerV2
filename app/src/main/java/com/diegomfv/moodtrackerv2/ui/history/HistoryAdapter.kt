@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.diegomfv.moodtrackerv2.R
 import com.diegomfv.moodtrackerv2.domain.DayModel
-import com.diegomfv.moodtrackerv2.ui.common.basicDiffUtil
-import com.diegomfv.moodtrackerv2.ui.common.inflate
+import com.diegomfv.moodtrackerv2.extensions.basicDiffUtil
+import com.diegomfv.moodtrackerv2.extensions.inflate
 import com.diegomfv.moodtrackerv2.utils.ColourManager
 import kotlinx.android.synthetic.main.item_day.view.*
 
@@ -19,7 +19,7 @@ class HistoryAdapter (
 
     var dayModelList: List<DayModel> by basicDiffUtil(
         emptyList(),
-        areItemsTheSame = { old, new -> old.day == new.day }
+        areItemsTheSame = { old, new -> old.itemId == new.itemId }
     )
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -37,7 +37,7 @@ class HistoryAdapter (
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         fun bind(dayModel: DayModel) {
-            itemView.text_day.text = "${dayModel.dayAsString}"
+            itemView.text_day.text = dayModel.day
             itemView.mood_bar.backgroundTintList = ColorStateList.valueOf(colourManager.getMoodColour(dayModel.mood))
         }
     }
