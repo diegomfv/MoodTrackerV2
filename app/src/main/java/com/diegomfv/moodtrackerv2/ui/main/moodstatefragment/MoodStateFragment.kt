@@ -7,9 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import com.diegomfv.moodtrackerv2.QUALIFIER_COLOUR_MANAGER
-import com.diegomfv.moodtrackerv2.QUALIFIER_IMAGE_MANAGER
 import com.diegomfv.moodtrackerv2.R
+import com.diegomfv.moodtrackerv2.constants.QUALIFIER_COLOUR_MANAGER
+import com.diegomfv.moodtrackerv2.constants.QUALIFIER_IMAGE_MANAGER
 import com.diegomfv.moodtrackerv2.extensions.shortToast
 import com.diegomfv.moodtrackerv2.extensions.startActivity
 import com.diegomfv.moodtrackerv2.extensions.throttleFirst

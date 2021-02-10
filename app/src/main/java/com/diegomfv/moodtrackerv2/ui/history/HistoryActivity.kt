@@ -4,8 +4,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.diegomfv.moodtrackerv2.AppProvider
-import com.diegomfv.moodtrackerv2.QUALIFIER_COLOUR_MANAGER
 import com.diegomfv.moodtrackerv2.R
+import com.diegomfv.moodtrackerv2.constants.QUALIFIER_COLOUR_MANAGER
 import com.diegomfv.moodtrackerv2.extensions.shortToast
 import com.diegomfv.moodtrackerv2.utils.ColourManager
 import kotlinx.android.synthetic.main.activity_history.*

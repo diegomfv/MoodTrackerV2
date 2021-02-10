@@ -9,6 +9,5 @@ interface LocalDataSource {
 
     suspend fun buildContainerIfDoesNotExist()
     suspend fun getAllDays(): List<DayDbModel>
-    suspend fun getDay(day: Int): DayDbModel?
     suspend fun updateOrCreateDay(mood: Int?, comment: String?)
 }

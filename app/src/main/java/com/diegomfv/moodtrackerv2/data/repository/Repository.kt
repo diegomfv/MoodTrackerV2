@@ -11,12 +11,6 @@ class Repository (private val localDataSource: LocalDataSource) {
             .map { it.toDayModel()}
     }
 
-    suspend fun getDay (itemId: String) : DayModel? {
-        return localDataSource.getAllDays()
-            .find { it.itemId == itemId }
-            ?.toDayModel()
-    }
-
     suspend fun updateDay (mood: Int?, comment: String?) {
         if (mood == null && comment == null) return
         localDataSource.updateOrCreateDay(mood, comment)

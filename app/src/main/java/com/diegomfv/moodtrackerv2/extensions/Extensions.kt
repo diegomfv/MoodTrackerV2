@@ -3,6 +3,7 @@ package com.diegomfv.moodtrackerv2.extensions
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -51,8 +52,8 @@ inline fun <VH : RecyclerView.ViewHolder, T> RecyclerView.Adapter<VH>.basicDiffU
         }).dispatchUpdatesTo(this@basicDiffUtil)
     }
 
-fun View?.throttleFirst (throttleFirst: Long = 500, actionOnClick: () -> Unit) =
+fun View?.throttleFirst (millis: Long = 500, actionOnClick: () -> Unit) =
     this?.clicks()
-        ?.throttleFirst (throttleFirst, TimeUnit.MILLISECONDS)
+        ?.throttleFirst (millis, TimeUnit.MILLISECONDS)
         ?.observeOn(AndroidSchedulers.mainThread())
         ?.subscribe { actionOnClick.invoke() }

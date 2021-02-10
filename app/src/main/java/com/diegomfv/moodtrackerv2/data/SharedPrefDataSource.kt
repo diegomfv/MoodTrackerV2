@@ -43,14 +43,6 @@ class SharedPrefDataSource(
         }
     }
 
-    override suspend fun getDay(day: Int): DayDbModel? {
-        return withContext(dispatchersPool.ioDipatcher) {
-            val data = sharedPreferences.getString(KEY, DEFAULT_VALUE_STRING)
-            val model = gson.fromJson(data, DbContainer::class.java)
-            return@withContext model.list.firstOrNull()
-        }
-    }
-
     override suspend fun updateOrCreateDay(mood: Int?, comment: String?) {
         return withContext(dispatchersPool.ioDipatcher) {
             val data = sharedPreferences.getString(KEY, DEFAULT_VALUE_STRING)
@@ -58,24 +50,24 @@ class SharedPrefDataSource(
             val today = localDateManager.getTodayAsString()
 
             val index = preContainer.list.indexOfFirst { it.day == today }
-            val newDbDay = if (index == -1) {
+            val newList = if (index == -1) {
                 /* Day does not exist. Create */
-                DayDbModel(
+                val newDbDay = DayDbModel(
                     System.currentTimeMillis().toString(), //new itemId
                     today,
                     mood ?: MOOD_NORMAL,
                     comment ?: "")
-
+                preContainer.list.toMutableList().apply { add(newDbDay) }
 
             } else {
                 /* Day exists. Update */
                 val dbDay = preContainer.list.get(index)
-                dbDay.copy(
+                val newDbDay = dbDay.copy(
                     mood = mood ?: dbDay.mood,
                     comment = comment ?: dbDay.comment
                 )
+                preContainer.list.toMutableList().apply { set(index, newDbDay) }
             }
-            val newList = preContainer.list.toMutableList().apply { set(index, newDbDay) }
             val newContainer = gson.toJson(DbContainer(newList))
             sharedPreferencesEditor.putString(KEY, newContainer).apply()
             return@withContext

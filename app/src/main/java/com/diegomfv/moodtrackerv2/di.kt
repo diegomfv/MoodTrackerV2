@@ -56,12 +56,10 @@ private val appModule = module {
         ).edit()
     }
 
+    single { Gson() }
     single<LocalDateManager> { LocalDateManagerImpl() }
     single { Repository(get()) }
-    single<LocalDataSource> { SharedPrefDataSource(get(), get(), get(), get()) }
-
-    single { Gson() }
-
+    single<LocalDataSource> { SharedPrefDataSource(get(), get(), get(), get(), get()) }
     single<ColourManager>(named(QUALIFIER_COLOUR_MANAGER)) { BasicColourManager(androidContext()) }
     single<ImageManager>(named(QUALIFIER_IMAGE_MANAGER)) { BasicImageManager() }
 }
