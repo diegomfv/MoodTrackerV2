@@ -1,4 +1,4 @@
-package com.diegomfv.moodtrackerv2.ui.common
+package com.diegomfv.moodtrackerv2.extensions
 
 import android.app.Activity
 import android.content.Context
@@ -6,13 +6,10 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.diegomfv.moodtrackerv2.utils.ColourManager
-import com.diegomfv.moodtrackerv2.utils.ImageManager
 import com.jakewharton.rxbinding3.view.clicks
 import io.reactivex.android.schedulers.AndroidSchedulers
 import java.util.concurrent.TimeUnit
@@ -30,7 +27,10 @@ inline fun <reified T : Activity> Context.startActivity(body: Intent.() -> Unit)
 
 fun Context.shortToast(message: String) = Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 
-fun Context.longToast(message: String) = Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+fun Context?.getScreenOrientation () : Int {
+    if (this == null) return -1
+    return resources.configuration.orientation
+}
 
 inline fun <VH : RecyclerView.ViewHolder, T> RecyclerView.Adapter<VH>.basicDiffUtil(
     initialValue: List<T>,
@@ -51,16 +51,8 @@ inline fun <VH : RecyclerView.ViewHolder, T> RecyclerView.Adapter<VH>.basicDiffU
         }).dispatchUpdatesTo(this@basicDiffUtil)
     }
 
-//fun ImageView.setImageResource (imageManager: ImageManager) {
-//    this.setImageResource(imageManager.getFaceImage())
-//}
-//
-//fun View.setBackgroundColor (colourManager: ColourManager) {
-//    this.setBackgroundColor(colourManager.getMoodColour())
-//}
-
-fun View.debouncedClicks (debounceTimeMillis: Long = 500, actionOnClick: () -> Unit) =
-    this.clicks()
-        .debounce (debounceTimeMillis, TimeUnit.MILLISECONDS)
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe { actionOnClick.invoke() }
+fun View?.throttleFirst (throttleFirst: Long = 500, actionOnClick: () -> Unit) =
+    this?.clicks()
+        ?.throttleFirst (throttleFirst, TimeUnit.MILLISECONDS)
+        ?.observeOn(AndroidSchedulers.mainThread())
+        ?.subscribe { actionOnClick.invoke() }
