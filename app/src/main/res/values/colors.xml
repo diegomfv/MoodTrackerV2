@@ -1,8 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorPrimaryLighter">@color/blue_material_0_50</color>
+    <color name="colorPrimaryLight">@color/blue_material_0_200</color>
+    <color name="colorPrimary">@color/blue_material_0_600</color>
+    <color name="colorPrimaryDark">@color/blue_material_0_800</color>
+    <color name="colorPrimaryDarker">@color/blue_material_0_900</color>
+    <color name="colorAccentLighter">@color/green_material_0_50</color>
+    <color name="colorAccentLight">@color/green_material_0_200</color>
+    <color name="colorAccent">@color/green_material_0_600</color>
+    <color name="colorAccentDark">@color/green_material_0_800</color>
+    <color name="colorAccentDarker">@color/green_material_0_900</color>
+
+    <color name="colorPrimaryText">#434c5b</color>
+    <color name="colorSecondaryText">#757575</color>
+    <color name="colorTertiaryText">#fffffF</color>
+
+    <color name="colorBackground">#f4f6f9</color>
+    <color name="colorCardBackground">#ffffff</color>
+
+    <color name="colorRipple">#ffffff</color>
+
+    <color name="blue_material_0_50">#e0f4f9</color>
+    <color name="blue_material_0_100">#b2e3f1</color>
+    <color name="blue_material_0_200">#81d0e8</color>
+    <color name="blue_material_0_300">#53bddf</color>
+    <color name="blue_material_0_400">#33b0db</color>
+    <color name="blue_material_0_500">#10a2d7</color>
+    <color name="blue_material_0_600">#0595c9</color>
+    <color name="blue_material_0_700">#0082b6</color>
+    <color name="blue_material_0_800">#0072a3</color>
+    <color name="blue_material_0_900">#005382</color>
+
+    <color name="green_material_0_50">#e0f3ed</color>
+    <color name="green_material_0_100">#b5e1d1</color>
+    <color name="green_material_0_200">#86cdb5</color>
+    <color name="green_material_0_300">#57b998</color>
+    <color name="green_material_0_400">#37aa84</color>
+    <color name="green_material_0_500">#209a71</color>
+    <color name="green_material_0_600">#1c8d66</color>
+    <color name="green_material_0_700">#167d57</color>
+    <color name="green_material_0_800">#0d6d4a</color>
+    <color name="green_material_0_900">#015130</color>
 
     <!-- Background colors for the different moods -->
     <color name="sad_red">#ffde3c50</color>
