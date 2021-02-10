@@ -4,6 +4,8 @@ import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import com.diegomfv.moodtrackerv2.constants.CONFIGURATION_PREFERENCES
+import com.diegomfv.moodtrackerv2.constants.QUALIFIER_COLOUR_MANAGER
+import com.diegomfv.moodtrackerv2.constants.QUALIFIER_IMAGE_MANAGER
 import com.diegomfv.moodtrackerv2.data.LocalDataSource
 import com.diegomfv.moodtrackerv2.data.SharedPrefDataSource
 import com.diegomfv.moodtrackerv2.data.repository.Repository
@@ -55,7 +57,7 @@ private val appModule = module {
     }
 
     single<LocalDateManager> { LocalDateManagerImpl() }
-    single<Repository> { Repository(get()) }
+    single { Repository(get()) }
     single<LocalDataSource> { SharedPrefDataSource(get(), get(), get(), get()) }
 
     single { Gson() }
@@ -84,9 +86,4 @@ private val scopesModule = module {
         viewModel { HistoryActivityViewModel(get(), get()) }
         scoped { GetAllDaysUsecase(get()) }
     }
-
 }
-
-//TODO Move from here
-const val QUALIFIER_COLOUR_MANAGER = "Q_CM_Basic"
-const val QUALIFIER_IMAGE_MANAGER = "Q_IM_Basic"
