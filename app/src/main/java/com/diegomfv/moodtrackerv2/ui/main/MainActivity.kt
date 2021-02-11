@@ -21,11 +21,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val listOfChildFragments = arrayListOf<Fragment>(
-            MoodStateFragment.newInstance(MOOD_SAD),
-            MoodStateFragment.newInstance(MOOD_DISAPPOINTED),
-            MoodStateFragment.newInstance(MOOD_NORMAL),
+            MoodStateFragment.newInstance(MOOD_VERY_HAPPY),
             MoodStateFragment.newInstance(MOOD_HAPPY),
-            MoodStateFragment.newInstance(MOOD_VERY_HAPPY)
+            MoodStateFragment.newInstance(MOOD_NORMAL),
+            MoodStateFragment.newInstance(MOOD_DISAPPOINTED),
+            MoodStateFragment.newInstance(MOOD_SAD)
         )
 
         val adapter = ViewPagerAdapter(
@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
             listOfFragments = listOfChildFragments
         )
 
-        view_pager.offscreenPageLimit = 4 //TODO Find a proper solution
+        view_pager.offscreenPageLimit = 1
         view_pager.adapter = adapter
 
     }

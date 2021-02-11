@@ -78,7 +78,10 @@ class MoodStateFragment : Fragment() {
     private fun updateUi(uiModel: MoodStateFragmentViewModel.UiModel) {
         when (uiModel) {
             is MoodStateFragmentViewModel.UiModel.Content -> {
-                iv_mood_state.setImageResource(imageManager.getFaceImage(uiModel.moodState))
+                iv_mood_state?.apply {
+                    setImageResource(imageManager.getFaceImage(uiModel.moodState))
+                    tag = imageManager.getFaceImage(uiModel.moodState)
+                }
                 activity?.let {
                     main_container.setBackgroundColor(
                         colourManager.getMoodColour(
@@ -86,6 +89,10 @@ class MoodStateFragment : Fragment() {
                         )
                     )
                 }
+
+                /* Testing purposes */
+                iv_go_to_history?.tag = imageManager.getFaceImage(uiModel.moodState)
+                iv_add_comment?.tag = imageManager.getFaceImage(uiModel.moodState)
             }
             is MoodStateFragmentViewModel.UiModel.Error -> TODO()
         }
