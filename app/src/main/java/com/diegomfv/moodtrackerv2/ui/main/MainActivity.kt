@@ -20,8 +20,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        mainActivityViewModel.event.observe(this, Observer { it.getContentIfNotHandled()?.let { triggerEvent(it) } })
-
         val listOfChildFragments = arrayListOf<Fragment>(
             MoodStateFragment.newInstance(MOOD_SAD),
             MoodStateFragment.newInstance(MOOD_DISAPPOINTED),
@@ -38,19 +36,5 @@ class MainActivity : AppCompatActivity() {
         view_pager.offscreenPageLimit = 4 //TODO Find a proper solution
         view_pager.adapter = adapter
 
-    }
-
-    private fun triggerEvent (event: MainActivityViewModel.EventModel) {
-        when (event) {
-            is MainActivityViewModel.EventModel.UpdateState -> {
-
-            }
-            is MainActivityViewModel.EventModel.SaveNote -> {
-
-            }
-            is MainActivityViewModel.EventModel.ToastMessage -> {
-                shortToast(event.string ?: "Toast is null")
-            }
-        }
     }
 }

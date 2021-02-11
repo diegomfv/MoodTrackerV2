@@ -1,9 +1,8 @@
-package com.diegomfv.moodtrackerv2
+package com.diegomfv.moodtrackerv2.app
 
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
-import com.diegomfv.moodtrackerv2.constants.CONFIGURATION_PREFERENCES
 import com.diegomfv.moodtrackerv2.constants.QUALIFIER_COLOUR_MANAGER
 import com.diegomfv.moodtrackerv2.constants.QUALIFIER_IMAGE_MANAGER
 import com.diegomfv.moodtrackerv2.data.LocalDataSource
@@ -17,8 +16,13 @@ import com.diegomfv.moodtrackerv2.ui.main.comment.CommentDialogFragment
 import com.diegomfv.moodtrackerv2.ui.main.comment.CommentDialogFragmentViewModel
 import com.diegomfv.moodtrackerv2.ui.main.moodstatefragment.MoodStateFragment
 import com.diegomfv.moodtrackerv2.ui.main.moodstatefragment.MoodStateFragmentViewModel
-import com.diegomfv.moodtrackerv2.usecase.*
-import com.diegomfv.moodtrackerv2.utils.*
+import com.diegomfv.moodtrackerv2.usecase.GetAllDaysUsecase
+import com.diegomfv.moodtrackerv2.usecase.SaveCommentUsecase
+import com.diegomfv.moodtrackerv2.usecase.UpdateMoodUsecase
+import com.diegomfv.moodtrackerv2.utils.BasicColourManager
+import com.diegomfv.moodtrackerv2.utils.BasicImageManager
+import com.diegomfv.moodtrackerv2.utils.ColourManager
+import com.diegomfv.moodtrackerv2.utils.ImageManager
 import com.diegomfv.moodtrackerv2.utils.dispatchers.DispatchersPool
 import com.diegomfv.moodtrackerv2.utils.dispatchers.DispatchersPoolImpl
 import com.diegomfv.moodtrackerv2.utils.localdateprovider.LocalDateManager
@@ -34,26 +38,28 @@ import org.koin.core.context.startKoin
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
-fun Application.initDI() {
+fun Application.initTestDI() {
     startKoin {
         androidLogger()
-        androidContext(this@initDI)
+        androidContext(this@initTestDI)
         modules(listOf(appModule, scopesModule))
     }
 }
+
+const val TEST_CONFIGURATION_PREFERENCES = "test_config_pref"
 
 private val appModule = module {
     single<CoroutineDispatcher> { Dispatchers.Main }
 
     single<SharedPreferences> {
         androidApplication().getSharedPreferences(
-            CONFIGURATION_PREFERENCES,
+            TEST_CONFIGURATION_PREFERENCES,
             Context.MODE_PRIVATE
         )
     }
     single<SharedPreferences.Editor> {
         androidApplication().getSharedPreferences(
-            CONFIGURATION_PREFERENCES,
+            TEST_CONFIGURATION_PREFERENCES,
             Context.MODE_PRIVATE
         ).edit()
     }

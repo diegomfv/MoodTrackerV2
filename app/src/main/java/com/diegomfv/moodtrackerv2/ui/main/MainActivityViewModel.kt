@@ -9,12 +9,4 @@ class MainActivityViewModel(
     uiDispatcher: CoroutineDispatcher
 ) : ScopedViewModel(uiDispatcher) {
 
-    val event = MutableLiveData<Event<EventModel>>()
-
-    sealed class EventModel {
-        data class UpdateState(val updateState: Int) : EventModel()
-        data class SaveNote(val note: String) : EventModel()
-        data class ToastMessage(val string: String?) : EventModel()
-    }
-
 }

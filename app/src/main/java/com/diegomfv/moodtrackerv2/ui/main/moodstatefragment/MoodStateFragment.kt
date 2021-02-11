@@ -87,6 +87,7 @@ class MoodStateFragment : Fragment() {
                     )
                 }
             }
+            is MoodStateFragmentViewModel.UiModel.Error -> TODO()
         }
     }
 
