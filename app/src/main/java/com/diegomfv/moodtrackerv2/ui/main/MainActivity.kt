@@ -3,10 +3,8 @@ package com.diegomfv.moodtrackerv2.ui.main
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import com.diegomfv.moodtrackerv2.R
 import com.diegomfv.moodtrackerv2.constants.*
-import com.diegomfv.moodtrackerv2.extensions.shortToast
 import com.diegomfv.moodtrackerv2.ui.main.moodstatefragment.MoodStateFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.scope.currentScope

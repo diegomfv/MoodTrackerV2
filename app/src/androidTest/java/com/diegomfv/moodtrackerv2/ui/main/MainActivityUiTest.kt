@@ -1,4 +1,4 @@
-package com.diegomfv.moodtrackerv2.ui
+package com.diegomfv.moodtrackerv2.ui.main
 
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
@@ -11,7 +11,6 @@ import androidx.test.espresso.matcher.RootMatchers.withDecorView
 import androidx.test.espresso.matcher.ViewMatchers.*
 import com.diegomfv.moodtrackerv2.R
 import com.diegomfv.moodtrackerv2.ui.history.HistoryActivity
-import com.diegomfv.moodtrackerv2.ui.main.MainActivity
 import org.hamcrest.Matchers.*
 import org.junit.Rule
 import org.junit.Test
